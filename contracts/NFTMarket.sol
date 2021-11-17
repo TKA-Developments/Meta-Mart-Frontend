@@ -1,9 +1,12 @@
+// contracts/NFTMarket.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+import "hardhat/console.sol";
 
 contract NFTMarket is ReentrancyGuard {
     // smart contracts can only use static arrays, thus we need to keep track of the itemIds
@@ -55,6 +58,7 @@ contract NFTMarket is ReentrancyGuard {
         uint256 price
     ) public payable nonReentrant {
         require(price > 0, "Price must be at least 1 wei");
+        require(msg.value == listingPrice, "Price must be equal to listing price");
 
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
