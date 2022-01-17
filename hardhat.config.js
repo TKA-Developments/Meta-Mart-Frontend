@@ -26,12 +26,13 @@ module.exports = {
       chainId: 1337
     },
     mumbai: {
-      url: `https://polygon-mumbai.infura.io/v3/${projectId}`,
-      accounts: []
+      // url: `https://polygon-mumbai.infura.io/v3/${projectId}`,
+      url: `https://polygon-mumbai.g.alchemy.com/v2/qK8Okt3Kcazu3EFNSK8zQdewbpK4uFhp`,
+      accounts: [privateKey]
     },
     mainnet: {
       url: `https://polygon-mainnet.infura.io/v3/${projectId}`,
-      accounts: []
+      accounts: [privateKey]
     }
   }
 };

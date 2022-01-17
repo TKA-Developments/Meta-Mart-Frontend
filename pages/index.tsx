@@ -10,6 +10,7 @@ import {nftaddress, nftmarketaddress} from "../config"
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+const projectId = "13514c5e17094ce5a35fb416653f856d";
 
 const Home: NextPage = () => {
   const [nfts, setNFTs] = useState([])
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
   // load all the available NFTs, should be called when the web is loaded
   const loadNFTs = async () => {
     // connect to ethereum node through RPC
-    const provider = new ethers.providers.JsonRpcProvider()
+    const provider = new ethers.providers.JsonRpcProvider(`https://polygon-mumbai.g.alchemy.com/v2/qK8Okt3Kcazu3EFNSK8zQdewbpK4uFhp`);
 
     // get the reference to the smart contracts and the data
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)

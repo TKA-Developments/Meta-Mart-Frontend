@@ -5,7 +5,7 @@ import {useRouter} from "next/router"
 import Web3Modal from "web3modal";
 
 // connect to the ipfs client through infura
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
+const client = ipfsHttpClient({url: 'https://ipfs.infura.io:5001/api/v0'})
 
 import {
   nftaddress, nftmarketaddress
@@ -15,13 +15,13 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import NFTMarket from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
 // the page
-const CreateItem = (url) => {
-  const [fileUrl, setFileUrl] = useState(null)
+const CreateItem = () => {
+  const [fileUrl, setFileUrl] = useState<string | null>(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
   // This function handles the image picked by the user and uploads it to IPFS
-  const onChange = async (e) => {
+  const onChange = async (e:any) => {
     const file = e.target.files[0]
     try {
       const added = await client.add(
@@ -61,7 +61,7 @@ const CreateItem = (url) => {
    *
    * @param url
    */
-  const createSale = async (url) => {
+  const createSale = async (url:any) => {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)

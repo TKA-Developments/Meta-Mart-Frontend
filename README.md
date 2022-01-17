@@ -1,15 +1,21 @@
-# Basic Sample Hardhat Project
+# Meta Mart
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This project is my first hands-on project on smart contract development.
+Meta Mart is a simple NFT Marketplace where people can Mint, Buy, and Sell NFTs.
+The Meta Mart contracts are deployed in Polygon Mumbai Testnet.
 
-Try running some of the following tasks:
+## Compiling Meta Mart smart Contract
 
 ```shell
-npx hardhat accounts
 npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+npx hardhat run scripts/deploy.js --network mumbai
+```
+
+After each deployment, don't forget to update the contract addresses in config.js
+
+## Running Meta Mart front end
+
+```shell
+yarn i
+npm run dev
 ```
