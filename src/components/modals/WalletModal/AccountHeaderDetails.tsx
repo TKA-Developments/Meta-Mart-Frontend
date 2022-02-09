@@ -1,0 +1,63 @@
+import Davatar from "@davatar/react";
+import { Menu } from "@headlessui/react";
+import { useWeb3React } from "@web3-react/core";
+import { Dispatch, SetStateAction, useCallback } from "react";
+import { FaAngleDown, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { shortenAddress } from "../../../util/string";
+import { WalletView } from ".";
+
+type AccountHeaderDetailsProps = {
+  walletView: WalletView;
+  setWalletView: Dispatch<SetStateAction<WalletView>>;
+};
+
+export const AccountHeaderDetails = ({
+  walletView,
+  setWalletView,
+}: AccountHeaderDetailsProps) => {
+  const { active, account, connector, activate, error, deactivate } =
+    useWeb3React();
+
+  const handleDeactivate = useCallback(() => {
+    deactivate();
+    setWalletView(WalletView.Connect);
+  }, [deactivate]);
+
+  if (walletView == WalletView.Connect) {
+    return (
+      <div className="flex flex-row justify-between items-center mx-4 my-3">
+        <div className="flex flex-row items-center my-2">
+          <FaUserCircle size={36} className="text-gray-400" />
+          <h3 className="text-lg mx-2 font-semibold text-white">My Wallet</h3>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-row justify-between items-center mx-4 my-3">
+      <div>
+        <Menu>
+          <Menu.Button className="flex flex-row items-center my-2">
+            <Davatar size={36} address={account as string} />
+            <h3 className="text-lg mx-2 font-semibold">My Wallet</h3>
+            <FaAngleDown />
+          </Menu.Button>
+          <Menu.Items className="absolute bg-white flex flex-col rounded py-2 px-3 min-w-[200px]">
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={handleDeactivate}
+                  className="flex items-center"
+                >
+                  <FaSignOutAlt className="mr-2" /> Log out
+                </button>
+              )}
+            </Menu.Item>
+          </Menu.Items>
+        </Menu>
+      </div>
+      <h3>{shortenAddress(account as string)}</h3>
+    </div>
+  );
+};

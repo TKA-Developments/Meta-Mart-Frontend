@@ -5,12 +5,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost"
   },
   "dependencies": {
+    "@davatar/react": "^1.8.1",
+    "@headlessui/react": "^1.4.3",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.2.0",
+    "@reduxjs/toolkit": "^1.7.2",
+    "@web3-react/abstract-connector": "^6.0.7",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "@web3-react/walletconnect-connector": "^6.2.10",
     "axios": "^0.24.0",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
@@ -19,7 +27,12 @@
     "ipfs-http-client": "^54.0.0",
     "next": "12.0.3",
     "react": "17.0.2",
+    "react-device-detect": "^2.1.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
+    "redux-persist": "^6.0.0",
+    "tiny-invariant": "^1.2.0",
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
@@ -29,7 +42,8 @@
     "eslint": "7",
     "eslint-config-next": "12.0.3",
     "postcss": "^8.3.11",
-    "tailwindcss": "^2.2.19",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.0.19",
     "typescript": "4.4.4"
   }
 }
