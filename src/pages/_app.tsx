@@ -21,7 +21,7 @@ function App({ Component, pageProps }: AppProps) {
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Web3ReactManager>
           <ReduxProvider store={store}>
-            <header className="sticky top-0 z-50">
+            <header className="sticky top-0 z-10">
               <Navbar />
             </header>
             <Component {...pageProps} />

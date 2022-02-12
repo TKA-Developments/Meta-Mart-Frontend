@@ -113,8 +113,8 @@ export const Footer = () => {
         </div>
       </div>
       <div className="mx-6 py-10 text-center md:text-left">
-        <div className="grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="">
+        <div className="grid lg:grid-flow-col-dense grid-1 md:grid-cols-4 lg:grid-cols-5 lg:grid-rows-2 gap-8">
+          <div className="md:col-span-4 lg:col-span-1 lg:row-span-2">
             <h6
               className="
             uppercase
@@ -149,43 +149,58 @@ export const Footer = () => {
               discover exclusive digital items.
             </p>
           </div>
-          <div className="">
+          <div className="row-span-2">
             <h6 className="uppercase font-semibold mb-4 flex justify-center md:justify-start">
               Marketplace
             </h6>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 All NFTs
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Art
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Collectibles
               </a>
             </p>
-            <p>
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Domain Names
               </a>
             </p>
-            <p>
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Music
               </a>
             </p>
-            <p>
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Photography
               </a>
             </p>
-            <p>
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Sports
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#!" className="text-gray-600">
+                Trading Cards
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#!" className="text-gray-600">
+                Utility
+              </a>
+            </p>
+            <p className="mb-2">
+              <a href="#!" className="text-gray-600">
+                Virtual Worlds
               </a>
             </p>
           </div>
@@ -193,27 +208,27 @@ export const Footer = () => {
             <h6 className="uppercase font-semibold mb-4 flex justify-center md:justify-start">
               My Account
             </h6>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Profile
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Favorites
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Watchlist
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 My Collections
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Settings
               </a>
@@ -221,54 +236,54 @@ export const Footer = () => {
           </div>
           <div className="">
             <h6 className="uppercase font-semibold mb-4 flex justify-center md:justify-start">
-              My Account
+              Stats
             </h6>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Rankings
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Activity
               </a>
             </p>
           </div>
-          <div className="">
+          <div className="row-span-2">
             <h6 className="uppercase font-semibold mb-4 flex justify-center md:justify-start">
               Resources
             </h6>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Help Center
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Platform Status
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Partners
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Gas-Free Marketplace
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Blog
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Docs
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Newsletter
               </a>
@@ -278,12 +293,12 @@ export const Footer = () => {
             <h6 className="uppercase font-semibold mb-4 flex justify-center md:justify-start">
               Company
             </h6>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 About
               </a>
             </p>
-            <p className="mb-4">
+            <p className="mb-2">
               <a href="#!" className="text-gray-600">
                 Careers
               </a>

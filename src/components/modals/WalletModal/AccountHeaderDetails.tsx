@@ -40,8 +40,8 @@ export const AccountHeaderDetails = ({
         <Menu>
           <Menu.Button className="flex flex-row items-center my-2">
             <Davatar size={36} address={account as string} />
-            <h3 className="text-lg mx-2 font-semibold">My Wallet</h3>
-            <FaAngleDown />
+            <h3 className="text-lg mx-2 font-semibold text-white">My Wallet</h3>
+            <FaAngleDown className="text-white" />
           </Menu.Button>
           <Menu.Items className="absolute bg-white flex flex-col rounded py-2 px-3 min-w-[200px]">
             <Menu.Item>
@@ -50,14 +50,17 @@ export const AccountHeaderDetails = ({
                   onClick={handleDeactivate}
                   className="flex items-center"
                 >
-                  <FaSignOutAlt className="mr-2" /> Log out
+                  <FaSignOutAlt className="mr-2 text-black" />{" "}
+                  <h3 className="text-black">Log out</h3>
                 </button>
               )}
             </Menu.Item>
           </Menu.Items>
         </Menu>
       </div>
-      <h3>{shortenAddress(account as string)}</h3>
+      <h3 className="text-white font-semibold">
+        {shortenAddress(account as string)}
+      </h3>
     </div>
   );
 };

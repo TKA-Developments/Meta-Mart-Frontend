@@ -192,25 +192,33 @@ export const WalletModal = () => {
   }, [wrapperRef, isModalOpen]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={`fixed w-96 bottom-0 h-[calc(100%-72px)] -right-96 transform transition ease-in-out delay-150 bg-gray-800 duration-300
+    <>
+      <div
+        ref={wrapperRef}
+        className={`fixed w-96 bottom-0 h-[calc(100%-72px)] -right-96 transform transition ease-in-out delay-150 bg-gray-800 duration-300
       ${isModalOpen ? "-translate-x-96" : "-translate-x-0"}`}
-    >
-      <AccountHeaderDetails
-        walletView={walletView}
-        setWalletView={setWalletView}
-      />
+      >
+        <AccountHeaderDetails
+          walletView={walletView}
+          setWalletView={setWalletView}
+        />
 
-      {walletView == WalletView.Connect ? (
-        <div className="mx-4">
-          <h3 className="text-lg mb-2 text-gray-400">
-            Connect with one of our available wallet providers or create a new
-            one.
-          </h3>
-          <div>{walletOptions}</div>
-        </div>
-      ) : null}
-    </div>
+        {walletView == WalletView.Connect ? (
+          <div className="mx-4">
+            <h3 className="text-lg mb-2 text-gray-400">
+              Connect with one of our available wallet providers or create a new
+              one.
+            </h3>
+            <div>{walletOptions}</div>
+          </div>
+        ) : null}
+      </div>
+      <div
+        className={
+          "fixed w-full h-full top-0 left-0 right-0 bottom-0 -z-50 transition-all ease-in-out delay-150  bg-black bg-opacity-60 duration-300 " +
+          (isModalOpen ? "" : "hidden")
+        }
+      />
+    </>
   );
 };

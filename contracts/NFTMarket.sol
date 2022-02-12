@@ -18,13 +18,13 @@ contract NFTMarket is ReentrancyGuard {
 
     uint256 listingPrice = 0.025 ether;
 
-    constructor () {
+    constructor() {
         owner = payable(msg.sender);
     }
 
     // data structure to hold the data for the digital objects sold
     struct MarketItem {
-        uint itemId;
+        uint256 itemId;
         address nftContract;
         uint256 tokenId;
         address payable seller;
@@ -33,11 +33,11 @@ contract NFTMarket is ReentrancyGuard {
         bool sold;
     }
 
-    mapping (uint256 => MarketItem) private idToMarketItem;
+    mapping(uint256 => MarketItem) private idToMarketItem;
 
     // event that will be triggered when a new market item is created
-    event MarketItemCreated (
-        uint indexed itemId,
+    event MarketItemCreated(
+        uint256 indexed itemId,
         address indexed nftContract,
         uint256 indexed tokenId,
         address seller,
@@ -58,7 +58,10 @@ contract NFTMarket is ReentrancyGuard {
         uint256 price
     ) public payable nonReentrant {
         require(price > 0, "Price must be at least 1 wei");
-        require(msg.value == listingPrice, "Price must be equal to listing price");
+        require(
+            msg.value == listingPrice,
+            "Price must be equal to listing price"
+        );
 
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -73,35 +76,39 @@ contract NFTMarket is ReentrancyGuard {
             false
         );
 
-        IERC721(nftContract).transferFrom(msg.sender, address (this), tokenId);
+        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
         emit MarketItemCreated(
             itemId,
             nftContract,
             tokenId,
             msg.sender,
-            address (0),
+            address(0),
             price,
             false
         );
     }
 
     // a token sale contract that moves MarketItem to a new owner
-    function createMarketSale (
-        address nftContract,
-        uint256 itemId
-    ) public payable nonReentrant {
-        uint price = idToMarketItem[itemId].price;
-        uint tokenId = idToMarketItem[itemId].tokenId;
+    function createMarketSale(address nftContract, uint256 itemId)
+        public
+        payable
+        nonReentrant
+    {
+        uint256 price = idToMarketItem[itemId].price;
+        uint256 tokenId = idToMarketItem[itemId].tokenId;
 
         // make sure the caller of this function sends enough ether
-        require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+        require(
+            msg.value == price,
+            "Please submit the asking price in order to complete the purchase"
+        );
 
         // transfer the ether to the seller of the NFT
         idToMarketItem[itemId].seller.transfer(msg.value);
 
         // transfer the NFT from the contract address to the caller of the function
-        IERC721(nftContract).transferFrom(address (this), msg.sender, tokenId);
+        IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
 
         // set the NFT to be owned by the buyer (caller of the function)
         idToMarketItem[itemId].owner = payable(msg.sender);
@@ -115,14 +122,14 @@ contract NFTMarket is ReentrancyGuard {
 
     // function that fetch all the available market items
     function fetchMarketItems() public view returns (MarketItem[] memory) {
-        uint itemCount = _itemIds.current();
-        uint unsoldItemCount = _itemIds.current() - _itemsSold.current();
-        uint currentIndex = 0;
+        uint256 itemCount = _itemIds.current();
+        uint256 unsoldItemCount = _itemIds.current() - _itemsSold.current();
+        uint256 currentIndex = 0;
 
         MarketItem[] memory items = new MarketItem[](unsoldItemCount);
-        for (uint i = 0; i < itemCount; i++) {
+        for (uint256 i = 0; i < itemCount; i++) {
             if (idToMarketItem[i + 1].owner == address(0)) {
-                uint currentId = i + 1;
+                uint256 currentId = i + 1;
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
@@ -131,26 +138,35 @@ contract NFTMarket is ReentrancyGuard {
         return items;
     }
 
-    function fetchMarketItem(uint id) public view returns (MarketItem memory) {
+    function fetchMarketItem(uint256 id)
+        public
+        view
+        returns (MarketItem memory)
+    {
         return idToMarketItem[id];
+    }
+
+    function fetchLastItem() public view returns (MarketItem memory) {
+        uint256 itemCount = _itemIds.current();
+        return idToMarketItem[itemCount - 1];
     }
 
     // function that fetch all the NFTs that a user has
     function fetchMyNFTs() public view returns (MarketItem[] memory) {
-        uint totalItemCount = _itemIds.current();
-        uint itemCount = 0;
-        uint currentIndex = 0;
+        uint256 totalItemCount = _itemIds.current();
+        uint256 itemCount = 0;
+        uint256 currentIndex = 0;
 
-        for (uint i = 0; i < totalItemCount; i++) {
+        for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketItem[i + 1].owner == msg.sender) {
                 itemCount += 1;
             }
         }
 
         MarketItem[] memory items = new MarketItem[](itemCount);
-        for (uint i = 0; i < totalItemCount; i++) {
+        for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketItem[i + 1].owner == msg.sender) {
-                uint currentId = i + 1;
+                uint256 currentId = i + 1;
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
@@ -161,20 +177,20 @@ contract NFTMarket is ReentrancyGuard {
 
     // function that fetch all the NFTs that a user has created
     function fetchItemsCreated() public view returns (MarketItem[] memory) {
-        uint totalItemCount = _itemIds.current();
-        uint itemCount = 0;
-        uint currentIndex = 0;
+        uint256 totalItemCount = _itemIds.current();
+        uint256 itemCount = 0;
+        uint256 currentIndex = 0;
 
-        for (uint i = 0; i < totalItemCount; i++) {
+        for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketItem[i + 1].seller == msg.sender) {
                 itemCount += 1;
             }
         }
 
         MarketItem[] memory items = new MarketItem[](itemCount);
-        for (uint i = 0; i < totalItemCount; i++) {
+        for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketItem[i + 1].seller == msg.sender) {
-                uint currentId = i + 1;
+                uint256 currentId = i + 1;
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
