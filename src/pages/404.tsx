@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Error404 = () => {
   return (
-    <div className="flex flex-col  place-items-center pt-24">
+    <div className="flex flex-col  place-items-center py-24">
       <h2 className="text-9xl font-bold">404</h2>
       <h3 className="text-4xl font-bold">This page is lost</h3>
       <h4 className="text-lg mt-6">

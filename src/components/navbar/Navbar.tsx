@@ -1,18 +1,41 @@
 import Link from "next/link";
-import { useState } from "react";
-import { FaWallet } from "react-icons/fa";
-import { ApplicationModal } from "../state/application/actions";
-import { useOpenModal, useToggleWalletModal } from "../state/application/hooks";
-import { WalletModal } from "./modals/WalletModal";
+import { useEffect, useState } from "react";
+import {
+  FaChevronDown,
+  FaExclamationTriangle,
+  FaUserCircle,
+  FaWallet,
+} from "react-icons/fa";
+import { ApplicationModal } from "../../state/application/actions";
+import {
+  useOpenModal,
+  useToggleWalletModal,
+} from "../../state/application/hooks";
+import { WalletModal } from "../modals/WalletModal";
+import { FlyoutMenu } from "./FlyoutTab";
+import DefaultErrorPage from "next/error";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 
 export const Navbar = () => {
+  const { active, account, connector, activate, error, deactivate } =
+    useWeb3React();
   const toggleWalletModal = useToggleWalletModal();
   const [showMobileMenuDropdown, setShowMobileMenuDropdown] = useState(false);
 
+  const [isNavbarExtended, setIsNavbarExtended] = useState(false);
+
+  useEffect(() => {
+    if (error instanceof UnsupportedChainIdError) {
+      setIsNavbarExtended(true);
+    } else {
+      setIsNavbarExtended(false);
+    }
+  }, [error]);
+
   return (
     <>
-      <nav className="bg-gray-900 text-gray-200 border-gray-400 h-[72px] flex justify-center px-3">
-        <div className="container flex flex-wrap items-center mx-auto gap-20">
+      <nav className="bg-gray-900 text-gray-200 border-gray-400 flex justify-center flex-col">
+        <div className="container flex flex-wrap items-center mx-auto gap-20  h-[72px] px-3">
           <div className="flex flex-row flex-1 gap-5">
             <Link href="/">
               <a>
@@ -122,19 +145,59 @@ export const Navbar = () => {
                   </Link>
                 </li>
                 <li className="h-full text-lg">
+                  <FlyoutMenu
+                    containerProps={{
+                      className: "px-2 h-full flex items-center relative",
+                    }}
+                    panelProps={{
+                      className: "bg-white absolute",
+                    }}
+                    titleComponent={({ open }) => (
+                      <div className="flex flex-row items-center">
+                        <FaUserCircle size={25} />
+                        <FaChevronDown size={14} className="ml-2" />
+                      </div>
+                    )}
+                    popoverComponent={({ open }) => (
+                      <ul>
+                        <li>
+                          <Link href="/collections">
+                            <a>My Collections</a>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  />
+                </li>
+                <li className="h-full text-lg">
                   <button
                     onClick={toggleWalletModal}
-                    className="px-4 h-full flex items-center"
+                    className="px-2 h-full flex items-center"
                   >
-                    <FaWallet size={20} />
+                    {error instanceof UnsupportedChainIdError ? (
+                      <FaExclamationTriangle
+                        size={25}
+                        className="text-red-600"
+                      />
+                    ) : (
+                      <FaWallet size={25} />
+                    )}
                   </button>
                 </li>
               </ul>
             </div>
           </div>
         </div>
+        {error instanceof UnsupportedChainIdError ? (
+          <div className="bg-red-600 h-[36px] text-center flex flex-col justify-center">
+            <h3>
+              You are in a wrong network. Please connect to the appropriate
+              network.
+            </h3>
+          </div>
+        ) : null}
       </nav>
-      <WalletModal />
+      <WalletModal isNavbarExtended={isNavbarExtended} />
     </>
   );
 };

@@ -4,7 +4,7 @@ import { Contract, PayableOverrides } from "@ethersproject/contracts";
 import NFT from "../../artifacts/contracts/NFT.sol/NFT.json";
 import NFTMarket from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
 import { nftAddress, nftMarketAddress } from "../../config";
-import useContract from "../hooks/useContract";
+import {useContract} from "../hooks/useContract";
 
 export type NFTMarketContract = Contract & {
     getListingPrice: () => Promise<BigNumber>;
@@ -12,7 +12,7 @@ export type NFTMarketContract = Contract & {
     fetchMarketItems: () => Promise<Result>;
 };
 
-export const useContractNFTMarket = () => useContract<NFTMarketContract>(
+export const useContractNFTMarket = () => useContract(
     nftMarketAddress,
     NFTMarket.abi
   )!;

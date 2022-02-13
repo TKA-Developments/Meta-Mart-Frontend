@@ -23,11 +23,11 @@ import { nftAddress, nftMarketAddress } from "../../../config";
 
 import { useWeb3React } from "@web3-react/core";
 import { FaRegImage, FaTimes } from "react-icons/fa";
-import useContract from "../../hooks/useContract";
 import { Result } from "@ethersproject/abi";
 import { parseUnits } from "@ethersproject/units";
 import { useContractNFTMarket } from "../../contracts/NFTMarketContract";
 import { useContractNFT } from "../../contracts/NFTContract";
+import { useActiveWeb3React } from "../../services/web3";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   required?: boolean;
@@ -163,7 +163,7 @@ const ImageInput = ({
 const Create = () => {
   const router = useRouter();
   const { active, account, connector, activate, error, deactivate, library } =
-    useWeb3React();
+    useActiveWeb3React();
 
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [errorMessages, setErrorMessages] = useState<any | null>(null);
@@ -174,19 +174,22 @@ const Create = () => {
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemPrice, setItemPrice] = useState("0");
-  const [assetId, setAssetId] = useState<null | string>(null);
 
   const contractNFT = useContractNFT();
   const contractNFTMarket = useContractNFTMarket();
 
   useEffect(() => {
     setIsSubmitButtonDisabled(
-      itemImageFile === null || itemName === "" || parseInt(itemPrice) <= 0
+      itemImageFile === null || itemName === "" || parseFloat(itemPrice) <= 0.0
     );
   }, [itemImageFile, itemName, itemPrice]);
 
   const createItem = useCallback(async () => {
-    if (itemImageFile === null || itemName === "" || parseInt(itemPrice) <= 0) {
+    if (
+      itemImageFile === null ||
+      itemName === "" ||
+      parseFloat(itemPrice) <= 0.0
+    ) {
       return;
     }
 
@@ -231,8 +234,9 @@ const Create = () => {
     }
   }, [itemImageFile, itemName, itemPrice]);
 
-  if (!active) {
-    return <DefaultErrorPage statusCode={404} />;
+  if (!account) {
+    router.push(`/login?referrer=${encodeURI("/asset/create")}`);
+    return <></>;
   }
 
   return (

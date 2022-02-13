@@ -24,7 +24,7 @@ export const Option = ({
     <button
       className={
         `bg-[rgba(0,0,0,0.2)] focus:outline-none flex items-center gap-4 justify-between
-        w-full px-4 py-3 rounded border border-dark-700 hover:border-blue text-white` +
+        w-full px-4 py-3 rounded-xl border border-dark-700 hover:border-blue text-white` +
         (active ? "cursor-pointer" : "")
       }
       onClick={onClick}

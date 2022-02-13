@@ -1,45 +1,32 @@
-import { AbstractConnector } from "@web3-react/abstract-connector";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ethers } from "ethers";
+import axios from "axios";
+import { nftAddress, nftMarketAddress } from "../../config";
+import NFT from "../../artifacts/contracts/NFT.sol/NFT.json";
+import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  injected,
-  SUPPORTED_WALLETS,
-  WalletInfo,
-} from "../../../config/wallet";
-import {
-  ApplicationModal,
-  setOpenModal,
-} from "../../../state/application/actions";
-import {
-  useIsModalOpen,
-  useToggleWalletModal,
-} from "../../../state/application/hooks";
-import { FaExclamationTriangle, FaUserCircle } from "react-icons/fa";
+import { useContractNFTMarket } from "../contracts/NFTMarketContract";
+import { useContractNFT } from "../contracts/NFTContract";
+import { FaEthereum } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+import Loading from "react-loading";
+import DefaultErrorPage from "next/error";
+import { ProductCard, ProductCardNFT } from "../components/card/ProductCard";
+import { formatUnits } from "ethers/lib/utils";
+import { useActiveWeb3React } from "../services/web3";
+import { useRouter } from "next/router";
 import { isMobile } from "react-device-detect";
-import { Option } from "./Option";
-import { useAppDispatch } from "../../../state/hooks";
-import { AccountHeaderDetails } from "./AccountHeaderDetails";
-import { useActiveWeb3React } from "../../../services/web3";
-import { classNames } from "../../../util/style";
+import { Option } from "../components/modals/WalletModal/Option";
+import { injected, SUPPORTED_WALLETS } from "../config/wallet";
+import { AbstractConnector } from "@web3-react/abstract-connector";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 
-export enum WalletView {
-  Account,
-  Pending,
-  Connect,
-}
-
-export type WalletModalProps = {
-  isNavbarExtended: boolean;
-};
-
-export const WalletModal = ({ isNavbarExtended }: WalletModalProps) => {
-  const { active, account, connector, activate, error, deactivate } =
-    useWeb3React();
-  const dispatch = useAppDispatch();
+const Login = () => {
+  const { active, account, connector, activate, error, deactivate, library } =
+    useActiveWeb3React();
   const [pendingError, setPendingError] = useState<boolean>();
-  const isModalOpen = useIsModalOpen(ApplicationModal.Wallet);
-  const toggleWalletModal = useToggleWalletModal();
+  const router = useRouter();
 
   const tryActivation = useCallback(
     async (
@@ -166,72 +153,28 @@ export const WalletModal = ({ isNavbarExtended }: WalletModalProps) => {
     });
   }, [connector, tryActivation]);
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event) {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target) &&
-        isModalOpen
-      ) {
-        event.preventDefault();
-        toggleWalletModal();
-      }
+  if (account) {
+    if (router.query.referrer) {
+      router.push(router.query.referrer.toString());
+    } else {
+      router.push("/");
     }
 
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [wrapperRef, isModalOpen]);
+    return <></>;
+  }
 
   return (
-    <>
-      <div
-        ref={wrapperRef}
-        className={classNames(
-          "fixed w-96 bottom-0 -right-96 transform transition ease-in-out delay-150 bg-gray-800 duration-300",
-          isModalOpen ? "-translate-x-96" : "-translate-x-0",
-          isNavbarExtended ? "h-[calc(100%-108px)]" : "h-[calc(100%-72px)]"
-        )}
-      >
-        {error instanceof UnsupportedChainIdError ? (
-          <div className="flex flex-col justify-center m-3 p-4 rounded-xl border-2">
-            <p>Please connect to the appropriate network.</p>
-            <button
-              onClick={() => deactivate()}
-              className="bg-red-600 mt-2 py-2 rounded"
-            >
-              Disconnect
-            </button>
-          </div>
-        ) : (
-          <>
-            <AccountHeaderDetails />
-
-            {!account ? (
-              <div className="mx-4">
-                <h3 className="text-lg mb-2 text-gray-400">
-                  Connect with one of our available wallet providers or create a
-                  new one.
-                </h3>
-                <div>{walletOptions}</div>
-              </div>
-            ) : null}
-          </>
-        )}
+    <div className="flex flex-col items-center mt-12 mb-20">
+      <div className="max-w-xl w-full">
+        <h2 className="text-2xl font-bold mb-3">Connect your wallet.</h2>
+        <h3 className="text-lg text-gray-400">
+          Connect with one of our available wallet providers or create a new
+          one.
+        </h3>
+        <div className="mt-6">{walletOptions}</div>
       </div>
-      <div
-        className={classNames(
-          "fixed w-full h-full top-0 left-0 right-0 bottom-0 -z-50 transition-all ease-in-out delay-150  bg-black bg-opacity-60 duration-300 ",
-          isModalOpen ? "" : "hidden"
-        )}
-      />
-    </>
+    </div>
   );
 };
+
+export default Login;

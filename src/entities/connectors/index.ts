@@ -1,3 +1,1 @@
-import { NetworkConnector } from './NetworkConnector';
-
-export { NetworkConnector };
+export { NetworkConnector } from './NetworkConnector';

@@ -6,24 +6,17 @@ import { FaAngleDown, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { shortenAddress } from "../../../util/string";
 import { WalletView } from ".";
 
-type AccountHeaderDetailsProps = {
-  walletView: WalletView;
-  setWalletView: Dispatch<SetStateAction<WalletView>>;
-};
+type AccountHeaderDetailsProps = {};
 
-export const AccountHeaderDetails = ({
-  walletView,
-  setWalletView,
-}: AccountHeaderDetailsProps) => {
+export const AccountHeaderDetails = ({}: AccountHeaderDetailsProps) => {
   const { active, account, connector, activate, error, deactivate } =
     useWeb3React();
 
   const handleDeactivate = useCallback(() => {
     deactivate();
-    setWalletView(WalletView.Connect);
   }, [deactivate]);
 
-  if (walletView == WalletView.Connect) {
+  if (!account) {
     return (
       <div className="flex flex-row justify-between items-center mx-4 my-3">
         <div className="flex flex-row items-center my-2">

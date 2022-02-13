@@ -1,7 +1,7 @@
 import { ChainId } from "./chainid"
 
 const RPC = {
-  [ChainId.ETHEREUM]: 'https://api.sushirelay.com/v1',
+  // [ChainId.ETHEREUM]: 'https://api.sushirelay.com/v1',
   // [ChainId.ETHEREUM]: 'https://eth-mainnet.alchemyapi.io/v2/HNQXSfiUcPjfpDBQaWYXjqlhTr1cEY9c',
   // [ChainId.MAINNET]: 'https://eth-mainnet.alchemyapi.io/v2/q1gSNoSMEzJms47Qn93f9-9Xg5clkmEC',
   // [ChainId.ROPSTEN]: 'https://eth-ropsten.alchemyapi.io/v2/cidKix2Xr-snU3f6f6Zjq_rYdalKKHmW',
@@ -11,7 +11,7 @@ const RPC = {
   // [ChainId.FANTOM]: 'https://rpcapi.fantom.network',
   // [ChainId.FANTOM_TESTNET]: 'https://rpc.testnet.fantom.network',
   // [ChainId.MATIC]: 'https://polygon-rpc.com/',
-  // [ChainId.MATIC_TESTNET]: 'https://rpc-mumbai.matic.today',
+  [ChainId.MATIC_TESTNET]: 'https://rpc-mumbai.matic.today',
   // [ChainId.XDAI]: 'https://rpc.xdaichain.com',
   // [ChainId.BSC]: 'https://bsc-dataseed.binance.org/',
   // [ChainId.BSC_TESTNET]: 'https://data-seed-prebsc-2-s3.binance.org:8545',
@@ -30,6 +30,8 @@ const RPC = {
   // [ChainId.CELO]: 'https://forno.celo.org',
   // [ChainId.MOONRIVER]: 'https://rpc.moonriver.moonbeam.network',
   // [ChainId.TELOS]: 'https://mainnet.telos.net/evm',
+  // [ChainId.HARDHAT_LOCALHOST]: 'https://polygon-mumbai.g.alchemy.com/v2/qK8Okt3Kcazu3EFNSK8zQdewbpK4uFhp',
+  [ChainId.HARDHAT_LOCALHOST]: 'http://127.0.0.1:8545'
 }
 
 export default RPC

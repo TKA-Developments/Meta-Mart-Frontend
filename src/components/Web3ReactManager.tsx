@@ -1,4 +1,4 @@
-import { useWeb3React } from "@web3-react/core";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { network } from "../config/wallet";
