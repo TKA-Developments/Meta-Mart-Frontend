@@ -7,12 +7,19 @@ type ComponentInFlyoutMenu = {
   open: boolean;
 };
 
+export type FlyoutMenuProps = {
+  titleComponent: (props: ComponentInFlyoutMenu) => JSX.Element;
+  popoverComponent: (props: ComponentInFlyoutMenu) => JSX.Element;
+  containerProps: any;
+  panelProps: any;
+};
+
 export const FlyoutMenu = ({
   titleComponent: TitleComponent = (props: ComponentInFlyoutMenu) => <></>,
   popoverComponent: PopoverComponent = (props: ComponentInFlyoutMenu) => <></>,
   containerProps,
   panelProps,
-}) => {
+}: FlyoutMenuProps) => {
   let timeout: NodeJS.Timeout;
   const timeoutDuration = 400;
 
@@ -27,7 +34,7 @@ export const FlyoutMenu = ({
   };
 
   // Open the menu after a delay of timeoutDuration
-  const onHover = (open: boolean, action) => {
+  const onHover = (open: boolean, action: any) => {
     // if the modal is currently closed, we need to open it
     // OR
     // if the modal is currently open, we need to close it
@@ -47,7 +54,7 @@ export const FlyoutMenu = ({
     setOpenState(!open); // toggle open state in React state
     clearTimeout(timeout); // stop the hover timer if it's running
   };
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (buttonRef.current && !buttonRef.current.contains(event.target)) {
       event.stopPropagation();
     }

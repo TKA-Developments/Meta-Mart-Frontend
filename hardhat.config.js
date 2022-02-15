@@ -1,6 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 const fs = require("fs");
-const privateKey = fs.readFileSync(".secret").toString();
+const privateKey = process.env.WALLET_PRIVATE_KEY;
 const projectId = "19146aecfc904af3a08b7107b76576ba";
 
 // This is a sample Hardhat task. To learn how to create your own go to

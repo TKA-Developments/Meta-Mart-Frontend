@@ -171,7 +171,7 @@ export const WalletModal = ({ isNavbarExtended }: WalletModalProps) => {
     /**
      * Alert if clicked on outside of element
      */
-    function handleClickOutside(event) {
+    function handleClickOutside(event: any) {
       if (
         wrapperRef.current &&
         !wrapperRef.current.contains(event.target) &&

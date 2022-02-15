@@ -15,11 +15,21 @@ enum FeaturedImageState {
   NoFeaturedImage,
 }
 
+export type NFT = {
+  price: string;
+  tokenId: string;
+  seller: string;
+  owner: string;
+  imageSrc: string;
+  name: string;
+  description: string;
+};
+
 const Index = () => {
   const [featuredImageState, setFeaturedImageState] = useState(
     FeaturedImageState.Loading
   );
-  const [featuredNFT, setFeaturedNFT] = useState(null);
+  const [featuredNFT, setFeaturedNFT] = useState<null | NFT>(null);
 
   const contractNFT = useContractNFT();
   const contractNFTMarket = useContractNFTMarket();
@@ -43,7 +53,7 @@ const Index = () => {
         description: meta.data.description,
       });
       setFeaturedImageState(FeaturedImageState.Loaded);
-    } catch (err) {
+    } catch (err: any) {
       // Overflow on indexing
       if (err.code == -32603) {
         setFeaturedImageState(FeaturedImageState.NoFeaturedImage);
@@ -59,18 +69,18 @@ const Index = () => {
   const featuredImageComponent = useMemo(() => {
     if (featuredImageState === FeaturedImageState.Loaded) {
       return (
-        <Link href={`/asset/${featuredNFT.tokenId}`}>
+        <Link href={`/asset/${featuredNFT!.tokenId}`}>
           <a>
             <div className="max-w-[550px] w-full relative bg-gray-700 rounded-xl flex flex-col">
               <img
-                src={featuredNFT.imageSrc}
+                src={featuredNFT!.imageSrc}
                 className="w-full h-full max-w-[550px] max-h-[550px] object-cover rounded-t-xl"
               />
               <div className="flex flex-row justify-between px-4 py-3">
                 <div className="flex flex-col">
-                  <h2 className="font-semibold">{featuredNFT.name}</h2>
+                  <h2 className="font-semibold">{featuredNFT!.name}</h2>
                   <h3 className="text-gray-400">
-                    {shortenAddress(featuredNFT.seller)}
+                    {shortenAddress(featuredNFT!.seller)}
                   </h3>
                 </div>
               </div>
@@ -122,7 +132,7 @@ const Index = () => {
               Discover, collect, and sell extraordinary NFTs
             </h2>
             <h3 className="mt-6 text-xl">
-              Meta Mart is the world's first and largest NFT marketplace
+              {"Meta Mart is the world's first and largest NFT marketplace"}
             </h3>
           </div>
           <div className="flex-1 flex justify-center">
