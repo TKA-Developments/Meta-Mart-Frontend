@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx hardhat run scripts/deploy.js && next build",
     "start": "next start",
     "lint": "next lint",
+    "deploy:abi": "npx hardhat run scripts/deploy.js",
     "deploy:local": "npx hardhat run scripts/deploy.js --network localhost",
     "deploy:mumbai": "npx hardhat run scripts/deploy.js --network mumbai"
   },
