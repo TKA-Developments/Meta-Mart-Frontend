@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   FaChevronDown,
   FaExclamationTriangle,
+  FaGripHorizontal,
   FaUserCircle,
   FaWallet,
 } from "react-icons/fa";
@@ -15,22 +16,51 @@ import { WalletModal } from "../modals/WalletModal";
 import { FlyoutMenu } from "./FlyoutTab";
 import DefaultErrorPage from "next/error";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import { useActiveWeb3React } from "../../services/web3";
+import { ChainId } from "../../config/chainid";
 
 export const Navbar = () => {
-  const { active, account, connector, activate, error, deactivate } =
-    useWeb3React();
+  const { chainId } = useWeb3React();
   const toggleWalletModal = useToggleWalletModal();
   const [showMobileMenuDropdown, setShowMobileMenuDropdown] = useState(false);
 
-  const [isNavbarExtended, setIsNavbarExtended] = useState(false);
+  const [isInInvalidChainId, setIsInInvalidChainId] = useState(false);
+
+  const switchToMumbai = useCallback(
+    () =>
+      (
+        window as unknown as Window & typeof globalThis & { ethereum?: any }
+      )?.ethereum
+        .request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              chainId: `0x13881`,
+              chainName: "Mumbai Test Network",
+              nativeCurrency: {
+                name: "MATIC",
+                symbol: "matic",
+                decimals: 18,
+              },
+              rpcUrls: ["https://rpc-mumbai.matic.today"],
+              blockExplorerUrls: [`https://mumbai.polygonscan.com/`],
+            },
+          ],
+        })
+        .then(console.log)
+        .catch(console.error),
+    []
+  );
 
   useEffect(() => {
-    if (error instanceof UnsupportedChainIdError) {
-      setIsNavbarExtended(true);
-    } else {
-      setIsNavbarExtended(false);
+    const isInInvalidChainId_ = ChainId[chainId!] === undefined;
+
+    setIsInInvalidChainId(isInInvalidChainId_);
+
+    if (isInInvalidChainId_) {
+      switchToMumbai();
     }
-  }, [error]);
+  }, [chainId]);
 
   return (
     <>
@@ -147,22 +177,29 @@ export const Navbar = () => {
                 <li className="h-full text-lg">
                   <FlyoutMenu
                     containerProps={{
-                      className: "px-2 h-full flex items-center relative",
+                      className:
+                        "mx-2 h-full flex flex-col justify-center relative border-0",
+                    }}
+                    buttonProps={{
+                      className: "h-full border-0 outline-none",
                     }}
                     panelProps={{
-                      className: "bg-white absolute",
+                      className: "absolute top-[calc(100%)] right-0 w-64 z-20",
                     }}
-                    titleComponent={({ open }) => (
-                      <div className="flex flex-row items-center">
+                    titleComponent={(props) => (
+                      <div className="h-full flex flex-row items-center">
                         <FaUserCircle size={25} />
                         <FaChevronDown size={14} className="ml-2" />
                       </div>
                     )}
-                    popoverComponent={({ open }) => (
-                      <ul>
-                        <li>
+                    popoverComponent={(props) => (
+                      <ul className="bg-gray-600 px-4 rounded-b-xl">
+                        <li className="py-4">
                           <Link href="/collections">
-                            <a>My Collections</a>
+                            <a className="flex flex-row items-center text-lg">
+                              <FaGripHorizontal className="mr-4" />
+                              My Collections
+                            </a>
                           </Link>
                         </li>
                       </ul>
@@ -174,10 +211,10 @@ export const Navbar = () => {
                     onClick={toggleWalletModal}
                     className="px-2 h-full flex items-center"
                   >
-                    {error instanceof UnsupportedChainIdError ? (
+                    {isInInvalidChainId ? (
                       <FaExclamationTriangle
                         size={25}
-                        className="text-red-600"
+                        className="text-red-400"
                       />
                     ) : (
                       <FaWallet size={25} />
@@ -188,16 +225,15 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
-        {error instanceof UnsupportedChainIdError ? (
-          <div className="bg-red-600 h-[36px] text-center flex flex-col justify-center">
+        {isInInvalidChainId ? (
+          <div className="bg-red-400 h-[36px] text-center flex flex-col justify-center">
             <h3>
-              You are in a wrong network. Please connect to the appropriate
-              network.
+              You are in a wrong network. Please connect to the Mumbai Testnet.
             </h3>
           </div>
         ) : null}
       </nav>
-      <WalletModal isNavbarExtended={isNavbarExtended} />
+      <WalletModal isNavbarExtended={isInInvalidChainId} />
     </>
   );
 };

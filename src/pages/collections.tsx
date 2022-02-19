@@ -1,21 +1,12 @@
-import { useEffect, useState } from "react";
-import { ethers } from "ethers";
 import axios from "axios";
-import { nftAddress, nftMarketAddress } from "../../config";
-import NFT from "../../artifacts/contracts/NFT.sol/NFT.json";
-import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
-import { useWeb3React } from "@web3-react/core";
-import { useContractNFTMarket } from "../contracts/NFTMarketContract";
-import { useContractNFT } from "../contracts/NFTContract";
-import { FaEthereum } from "react-icons/fa";
-import Link from "next/link";
-import Image from "next/image";
-import Loading from "react-loading";
-import DefaultErrorPage from "next/error";
-import { ProductCard, ProductCardNFT } from "../components/card/ProductCard";
 import { formatUnits } from "ethers/lib/utils";
-import { useActiveWeb3React } from "../services/web3";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Loading from "react-loading";
+import { ProductCard, ProductCardNFT } from "../components/card/ProductCard";
+import { useContractNFT } from "../contracts/NFTContract";
+import { useContractNFTMarket } from "../contracts/NFTMarketContract";
+import { useActiveWeb3React } from "../services/web3";
 
 const Collections = () => {
   const { active, account, connector, activate, error, deactivate, library } =

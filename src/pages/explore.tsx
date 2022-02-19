@@ -30,7 +30,7 @@ const Explore = () => {
 
         let price = ethers.utils.formatUnits(i.price.toString(), "ether");
 
-        console.log(tokenUri);
+        // console.log(tokenUri);
 
         let item = {
           price,

@@ -1,29 +1,38 @@
 import "../../styles/globals.css";
-import type { AppProps } from "next/app";
-import Link from "next/link";
-import { Navbar } from "../components/navbar/Navbar";
-import { Footer } from "../components/Footer";
-import getLibrary from "../misc/getLibrary";
-import { Provider as ReduxProvider } from "react-redux";
-import { Web3ReactProvider } from "@web3-react/core";
-import Web3ReactManager from "../components/Web3ReactManager";
-import { store } from "../state";
-import dynamic from "next/dynamic";
 
+import { Web3ReactProvider } from "@web3-react/core";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import { Provider as ReduxProvider } from "react-redux";
+
+import { Footer } from "../components/Footer";
+import { Navbar } from "../components/navbar/Navbar";
+import Web3ReactManager from "../components/Web3ReactManager";
+import getLibrary from "../misc/getLibrary";
+import { store } from "../state";
+
+import type { AppProps } from "next/app";
 const Web3ProviderNetwork = dynamic(
   () => import("../components/Web3ProviderNetwork"),
   { ssr: false }
 );
 
 function App({ Component, pageProps }: AppProps) {
+  const header = useMemo(
+    () => (
+      <header className="sticky top-0 z-10">
+        <Navbar />
+      </header>
+    ),
+    []
+  );
+
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Web3ReactManager>
           <ReduxProvider store={store}>
-            <header className="sticky top-0 z-10">
-              <Navbar />
-            </header>
+            {header}
             <Component {...pageProps} />
             <Footer />
           </ReduxProvider>

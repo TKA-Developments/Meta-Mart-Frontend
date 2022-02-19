@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState, useEffect } from "react";
+import { Fragment, useRef, useState, useEffect, useCallback } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import { classNames } from "../../util/style";
@@ -12,6 +12,7 @@ export type FlyoutMenuProps = {
   popoverComponent: (props: ComponentInFlyoutMenu) => JSX.Element;
   containerProps: any;
   panelProps: any;
+  buttonProps: any;
 };
 
 export const FlyoutMenu = ({
@@ -19,62 +20,21 @@ export const FlyoutMenu = ({
   popoverComponent: PopoverComponent = (props: ComponentInFlyoutMenu) => <></>,
   containerProps,
   panelProps,
+  buttonProps,
 }: FlyoutMenuProps) => {
-  let timeout: NodeJS.Timeout;
-  const timeoutDuration = 400;
+  const buttonRef = useRef<null | any>(null);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [openState, setOpenState] = useState(false);
+  const toggleDropdown = useCallback(() => buttonRef?.current.click(), []);
 
-  const toggleMenu = (open: boolean) => {
-    // log the current open state in React (toggle open state)
-    setOpenState((openState) => !openState);
-    // toggle the menu by clicking on buttonRef
-    buttonRef?.current?.click(); // eslint-disable-line
-  };
-
-  // Open the menu after a delay of timeoutDuration
-  const onHover = (open: boolean, action: any) => {
-    // if the modal is currently closed, we need to open it
-    // OR
-    // if the modal is currently open, we need to close it
-    if (
-      (!open && !openState && action === "onMouseEnter") ||
-      (open && openState && action === "onMouseLeave")
-    ) {
-      // clear the old timeout, if any
-      clearTimeout(timeout);
-      // open the modal after a timeout
-      timeout = setTimeout(() => toggleMenu(open), timeoutDuration);
-    }
-    // else: don't click! 😁
-  };
-
-  const handleClick = (open: boolean) => {
-    setOpenState(!open); // toggle open state in React state
-    clearTimeout(timeout); // stop the hover timer if it's running
-  };
-  const handleClickOutside = (event: any) => {
-    if (buttonRef.current && !buttonRef.current.contains(event.target)) {
-      event.stopPropagation();
-    }
-  };
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  });
   return (
-    <Popover {...containerProps}>
+    <Popover
+      {...containerProps}
+      onMouseEnter={toggleDropdown}
+      onMouseLeave={toggleDropdown}
+    >
       {({ open }) => (
-        <div
-          onMouseEnter={() => onHover(open, "onMouseEnter")}
-          onMouseLeave={() => onHover(open, "onMouseLeave")}
-          {...containerProps}
-        >
-          <Popover.Button ref={buttonRef}>
+        <>
+          <Popover.Button ref={buttonRef} {...buttonProps}>
             <TitleComponent open={open} />
           </Popover.Button>
 
@@ -92,7 +52,8 @@ export const FlyoutMenu = ({
               <PopoverComponent open={open} />
             </Popover.Panel>
           </Transition>
-        </div>
+        </>
+        // </div>
       )}
     </Popover>
   );

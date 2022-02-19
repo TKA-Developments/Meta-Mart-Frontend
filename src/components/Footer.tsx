@@ -144,9 +144,15 @@ export const Footer = () => {
               Meta Mart
             </h6>
             <p>
-              The world’s first and largest digital marketplace for crypto
-              collectibles and non-fungible tokens (NFTs). Buy, sell, and
-              discover exclusive digital items.
+              {
+                "Meta Mart is a test NFT Marketplace Made by TKA Developments. Checkout the "
+              }
+              <a
+                href="https://github.com/TKA-Developments/Meta-Mart"
+                className="text-indigo-600"
+              >
+                {"source code here"}
+              </a>
             </p>
           </div>
           <div className="row-span-2">

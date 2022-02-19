@@ -58,7 +58,7 @@ const Index = () => {
       if (err.code == -32603) {
         setFeaturedImageState(FeaturedImageState.NoFeaturedImage);
       }
-      console.log(err);
+      console.error(err);
     }
   }, []);
 
@@ -129,10 +129,19 @@ const Index = () => {
         <div className="flex flex-row w-full mx-20 my-20 flex-wrap">
           <div className="flex-1 py-36">
             <h2 className="text-4xl font-bold">
-              Discover, collect, and sell extraordinary NFTs
+              {"Meta Mart is a test NFT Marketplace Made by "}
+              <a href="https://tka.co.id/" className="text-indigo-600">
+                {"TKA Developments"}
+              </a>
             </h2>
             <h3 className="mt-6 text-xl">
-              {"Meta Mart is the world's first and largest NFT marketplace"}
+              {"Meta Mart connects to Polygon Mumbai Testnet. Checkout the "}
+              <a
+                href="https://github.com/RizkyWellyanto/Meta-Mart"
+                className="text-indigo-600"
+              >
+                {"source code here"}
+              </a>
             </h3>
           </div>
           <div className="flex-1 flex justify-center">

@@ -39,12 +39,9 @@ export default function Assets() {
   const loadNFT = useCallback(async () => {
     try {
       const data = await contractNFTMarket.fetchMarketItem(tokenId);
-
       const tokenUri = await contractNFT.tokenURI(data.tokenId);
       const meta = await axios.get(tokenUri);
-
       let price = formatUnits(data.price.toString(), "ether");
-
       setNFT({
         price,
         tokenId: data.tokenId.toNumber(),
@@ -85,7 +82,7 @@ export default function Assets() {
         <div>
           <div
             className={
-              "max-w-7xl flex flex-col mx-auto my-12 " +
+              "max-w-7xl flex flex-col mx-auto my-72 " +
               (pageState ? "min-h-[24rem] justify-center" : null)
             }
           >
@@ -111,7 +108,10 @@ export default function Assets() {
               <div className="flex flex-col lg:flex-row w-full gap-6">
                 <div className="flex-[1] flex-col flex gap-6">
                   <div className="w-full relative bg-gray-700 rounded-xl">
-                    <img src={nft.image} className="object-cover rounded-xl" />
+                    <img
+                      src={nft.image}
+                      className="object-cover rounded-xl w-full h-full"
+                    />
                   </div>
                   <div className="text-white flex flex-col gap-1">
                     <div className="flex flex-row items-center rounded-t-xl bg-gray-900 px-5 py-4">

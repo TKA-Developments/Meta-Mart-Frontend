@@ -202,7 +202,7 @@ export const WalletModal = ({ isNavbarExtended }: WalletModalProps) => {
       >
         {error instanceof UnsupportedChainIdError ? (
           <div className="flex flex-col justify-center m-3 p-4 rounded-xl border-2">
-            <p>Please connect to the appropriate network.</p>
+            <p>Please connect to the Mumbai Testnet.</p>
             <button
               onClick={() => deactivate()}
               className="bg-red-600 mt-2 py-2 rounded"
