@@ -20,7 +20,7 @@ import { useActiveWeb3React } from "../../services/web3";
 import { ChainId } from "../../config/chainid";
 
 export const Navbar = () => {
-  const { chainId } = useWeb3React();
+  const { chainId, account, error } = useWeb3React();
   const toggleWalletModal = useToggleWalletModal();
   const [showMobileMenuDropdown, setShowMobileMenuDropdown] = useState(false);
 
@@ -31,7 +31,7 @@ export const Navbar = () => {
       (
         window as unknown as Window & typeof globalThis & { ethereum?: any }
       )?.ethereum
-        .request({
+        ?.request({
           method: "wallet_addEthereumChain",
           params: [
             {
@@ -53,14 +53,16 @@ export const Navbar = () => {
   );
 
   useEffect(() => {
-    const isInInvalidChainId_ = ChainId[chainId!] === undefined;
+    const isInInvalidChainId_ =
+      error instanceof UnsupportedChainIdError &&
+      ChainId[chainId!] === undefined;
 
     setIsInInvalidChainId(isInInvalidChainId_);
 
     if (isInInvalidChainId_) {
       switchToMumbai();
     }
-  }, [chainId]);
+  }, [error, chainId]);
 
   return (
     <>
