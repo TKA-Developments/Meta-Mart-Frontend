@@ -4,6 +4,8 @@ This project is my first hands-on project on smart contract development.
 Meta Mart is a simple NFT Marketplace where people can Mint, Buy, and Sell NFTs.
 The Meta Mart contracts are deployed in Polygon Mumbai Testnet.
 
+Checkout the live website here: [Meta-Mart](https://meta-mart.netlify.app/)
+
 ## Contracts
 
 The project is consisted of 2 contracts.
@@ -25,6 +27,8 @@ The contract needs to be compiled everytime it has been modified. The command be
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network mumbai
 ```
+
+Don't forget to set your environment variable `WALLET_PRIVATE_KEY` to be the private key of your deployed account. This is an important variable in `hardhat.config.js`
 
 After each deployment, don't forget to update the contract addresses in `config.js`
 
