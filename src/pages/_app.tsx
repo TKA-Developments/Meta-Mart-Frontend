@@ -20,7 +20,8 @@ const Web3ProviderNetwork = dynamic(
 function App({ Component, pageProps }: AppProps) {
   const header = useMemo(
     () => (
-      <header className="sticky top-0 z-10">
+      // sticky top-0 z-10
+      <header className="pb-[76px]">
         <Navbar />
       </header>
     ),

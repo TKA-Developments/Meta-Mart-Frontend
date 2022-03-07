@@ -87,9 +87,9 @@ const Explore = () => {
 
   return (
     <div className="flex flex-col items-center mt-12 mb-20">
-      <div className="max-w-7xl w-full">
+      <div className="max-w-7xl w-full px-5">
         <h2 className="text-5xl font-bold mb-6">Explore</h2>
-        <div>
+        <div className="">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-96">
               <Loading type="spin" height={50} width={50} className="mb-4" />

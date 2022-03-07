@@ -126,7 +126,7 @@ const Index = () => {
   return (
     <>
       <div className="flex items-center">
-        <div className="flex flex-row w-full mx-20 my-20 flex-wrap">
+        <div className="flex flex-col lg:flex-row gap-10 w-full mx-20 my-20 flex-wrap">
           <div className="flex-1 py-36">
             <h2 className="text-4xl font-bold">
               {"Meta Mart is a test NFT Marketplace Made by "}
